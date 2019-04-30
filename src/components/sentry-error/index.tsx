@@ -17,7 +17,6 @@ export class SentryError extends React.Component<{}, { error: any }> {
       return (
         <div className='snap'>
           <p>Algum erro crítico não esperado aconteceu.</p>
-          <p>Nosso time já foi notificado.</p>
         </div>
       );
     } else {

@@ -1,9 +1,8 @@
 import swal from 'sweetalert2';
 import { decode } from 'jsonwebtoken';
 export const isLoggedIn = () => {
-  const user = sessionStorage.getItem('auth_userData');
-  const token = sessionStorage.getItem('auth_token');
-  return user !== null && token !== null;
+  const user = sessionStorage.getItem('auth_token');
+  return user !== null;
 };
 
 interface UserData {
@@ -17,7 +16,7 @@ export const getFirstName = (): string => {
 };
 
 export const getUser = (): UserData => {
-  const user = sessionStorage.getItem('auth_userData');
+  const user = sessionStorage.getItem('auth_token');
   if (user === null) {
     logOff();
     swal({
@@ -43,10 +42,6 @@ export const getUser = (): UserData => {
   }
 };
 
-export const setUser = (user: any) => {
-  sessionStorage.setItem('auth_userData', user);
-};
-
 export const setAuth = (token: string) => {
   sessionStorage.setItem('auth_token', token);
 };
@@ -56,6 +51,5 @@ export const getAuth = () => {
 };
 
 export const logOff = () => {
-  sessionStorage.removeItem('auth_userData');
   sessionStorage.removeItem('auth_token');
 };

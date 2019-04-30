@@ -1,10 +1,10 @@
 import * as React from 'react';
-import MenuStore from '../../components/menu/store';
+import MenuStore from '../../components/main-menu/store';
 import { Container } from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
 import { RouterStore } from 'mobx-react-router';
 
-@inject('menu', 'router')
+@inject('mainMenu', 'router')
 @observer
 export default class Home extends React.Component<{
   menu: MenuStore;
