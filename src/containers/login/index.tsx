@@ -1,26 +1,24 @@
 import * as React from 'react';
 import MenuStore from '../../components/main-menu/store';
-import swal from 'sweetalert2';
-import { assign } from '../../util/object.util';
 import {
   Button,
-  Container,
   Form,
   Grid,
   Header,
-  Input
+  Input,
+  Segment,
+  Divider
 } from 'semantic-ui-react';
-import { getLogin } from '../../api/usuarios.api';
 import { inject, observer } from 'mobx-react';
-import { isLoggedIn, logOff, setAuth } from '../../util/auth.util';
-import { RouterStore } from 'mobx-react-router';
+import { isLoggedIn, logOff } from '../../util/auth.util';
 import LoginStore from './store';
-
+import NewRouterStore from '../../mobx/router.store';
+import './style.css';
 
 interface Props {
   menu: MenuStore;
   login: LoginStore;
-  router: RouterStore;
+  router: NewRouterStore;
   match: any;
   history: any;
 }
@@ -29,117 +27,94 @@ interface Props {
 @inject('mainMenu', 'router', 'login')
 @observer
 export default class Login extends React.Component<Props> {
-  redirect = (url: string) => {
+  redirect() {
+    const path = 'home';
     const { setMenuActive } = this.props.menu;
-    setMenuActive(url);
-
-    const { history } = this.props.router;
-    history.push(`${process.env.PUBLIC_URL}/${url}`);
+    setMenuActive(path);
+    const { setHistory } = this.props.router;
+    setHistory(path);
   };
 
   componentWillMount() {
-    const { match: { path } } = this.props;
+    const { path } = this.props.match;
     if (path === '/logout') {
       logOff();
       return;
     }
 
-    if (isLoggedIn()) {
-      this.props.history.push(`${process.env.PUBLIC_URL}/home`);
-    }
-  }
+    const { setHistory } = this.props.router;
 
-  handleChange(event: any) {
-    const { id, value } = event.target;
-    assign(this, id, value);
+    if (isLoggedIn()) {
+      setHistory('home');
+    }
   }
 
   async handleSubmit(event: any) {
     event.preventDefault();
-
-    const { email, senha } = this.props.login;
-
-    try {
-
-      await this.setState({
-        loading: true
-      });
-
-      const { data: [user] } = await getLogin({ email, senha });
-      setAuth(JSON.stringify(user.userData));
-
-      this.props.history.push(`${process.env.PUBLIC_URL}/home`);
-
-      await this.setState({
-        loading: false
-      });
-
-    } catch (error) {
-
-      await this.setState({
-        loading: false
-      });
-
-      swal({
-        text: 'Ocorreu um erro não esperado.',
-        type: 'error'
-      });
-
-      throw error;
-    }
+    const { handleSubmit } = this.props.login;
+    await handleSubmit();
+    this.redirect();
   }
 
   render() {
 
-    const { email, senha, loading } = this.props.login;
+    const { email, senha, loading, handleChange } = this.props.login;
 
     return (
-      <Container>
-        <Header as={'h2'} className='center' color='blue'>My Mind</Header>
+      <section className='login'>
+        <Divider hidden={true} />
 
-        <Form className='login' onSubmit={this.handleSubmit}>
-          <Form.Field>
-            <label>Usuário</label>
 
-            <Input
-              id='login'
-              minLength={3}
-              maxLength={20}
-              className={'uppercase'}
-              placeholder='ex: AN_J'
-              value={email}
-              icon={'user'}
-              iconPosition={'left'}
-              onChange={this.handleChange}
-              required={true} />
+        <Form size='large'>
+          <Header as='h2' color='yellow' textAlign='center' content='Login' />
 
-          </Form.Field>
+          <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+            <Grid.Column width='4'>
+              <Segment color='green'>
 
-          <Form.Field>
-            <label>Senha</label>
-            <Input
-              type='password'
-              id='pass'
-              value={senha}
-              placeholder='EX: 123'
-              onChange={this.handleChange}
-              icon={'lock'}
-              iconPosition={'left'}
-              minLength={3}
-              maxLength={15}
-              autoComplete={'current-password'}
-              required={true} />
-          </Form.Field>
+                <Form.Field>
+                  <label>Usuário:</label>
+                  <Input
+                    id='email'
+                    minLength={3}
+                    maxLength={20}
+                    className={'uppercase'}
+                    placeholder='ex: jr_acn@yahoo.com.br'
+                    value={email}
+                    type='email'
+                    icon='user'
+                    iconPosition={'left'}
+                    onChange={handleChange}
+                    required={true} />
+                </Form.Field>
 
-          <Grid columns='2'>
-            <Grid.Row>
-              <Grid.Column width={12}>
-                <Button icon={'unlock'} loading={loading} labelPosition={'left'} fluid={true} positive={true} content={'Acessar'} title='Acessar' />
-              </Grid.Column>
-            </Grid.Row>
+                <Form.Field>
+                  <label>Senha</label>
+                  <Input
+                    type='password'
+                    id='senha'
+                    value={senha}
+                    placeholder='EX: 123'
+                    onChange={handleChange}
+                    icon='lock'
+                    iconPosition={'left'}
+                    minLength={3}
+                    maxLength={15}
+                    autoComplete={'current-password'}
+                    required={true} />
+                </Form.Field>
+
+                <Form.Field width='6'>
+                  <Button icon={'unlock'} loading={loading} labelPosition={'left'} fluid={true} positive={true} content={'Acessar'} title='Acessar' />
+                </Form.Field>
+
+              </Segment>
+            </Grid.Column>
           </Grid>
-        </Form>
-      </Container>
+
+        </Form >
+
+      </section>
     );
   }
 }
