@@ -4,18 +4,17 @@ import { Container } from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
 import NewRouterStore from '../../mobx/router.store';
 
-@inject('mainMenu', 'router')
-@observer
-export default class Usuario extends React.Component<{
+interface Props {
   menu: MenuStore;
   router: NewRouterStore;
-}> {
-  redirect = (url: string) => {
-    const { setMenuActive } = this.props.menu;
-    setMenuActive(url);
+}
 
-    const { history } = this.props.router;
-    history.push(`${process.env.PUBLIC_URL}/${url}`);
+@inject('mainMenu', 'router')
+@observer
+export default class Usuario extends React.Component<Props> {
+  update = (id: number) => {
+    const { setHistory } = this.props.router;
+    setHistory(`poema-list/${id}`);
   };
 
   render() {

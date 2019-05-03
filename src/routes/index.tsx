@@ -10,6 +10,7 @@ import {
 import { isLoggedIn } from '../util/auth.util';
 import MainMenu from '../components/main-menu';
 import Login from '../containers/login';
+import { Divider } from 'semantic-ui-react';
 
 // @ts-ignore
 @withRouter
@@ -19,7 +20,7 @@ export default class Routes extends React.Component {
   render() {
 
     const publicUrl = process.env.PUBLIC_URL;
-    
+
     return (
       <>
         <Switch>
@@ -28,11 +29,12 @@ export default class Routes extends React.Component {
           {isLoggedIn() ?
             <>
               <MainMenu />
+              <Divider hidden={true} />
               <PrivateRoutes />
             </> : <Redirect to={{ pathname: `${publicUrl}/login` }} />
           }
-          </Switch>
-        </>
-      );
-    }
+        </Switch>
+      </>
+    );
   }
+}

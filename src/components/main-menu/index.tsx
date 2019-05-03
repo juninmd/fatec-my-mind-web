@@ -46,14 +46,14 @@ export default class MainMenu extends React.Component<Props> {
             <Menu.Item
               name='poema'
               active={activated === 'poema'}
-              url='poema'
+              url='poema-list'
               onClick={this.handleItemClick}>
               Poema
             </Menu.Item>
             <Menu.Item
               name='usuario'
               active={activated === 'usuario'}
-              url='usuario'
+              url='usuario-list'
               onClick={this.handleItemClick}>
               Usuários
             </Menu.Item>
