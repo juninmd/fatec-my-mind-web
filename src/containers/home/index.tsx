@@ -2,13 +2,13 @@ import * as React from 'react';
 import MenuStore from '../../components/main-menu/store';
 import { Container } from 'semantic-ui-react';
 import { inject, observer } from 'mobx-react';
-import { RouterStore } from 'mobx-react-router';
+import NewRouterStore from '../../mobx/router.store';
 
 @inject('mainMenu', 'router')
 @observer
 export default class Home extends React.Component<{
   menu: MenuStore;
-  router: RouterStore;
+  router: NewRouterStore;
 }> {
   redirect = (url: string) => {
     const { setMenuActive } = this.props.menu;
@@ -20,7 +20,9 @@ export default class Home extends React.Component<{
 
   render() {
     return (
-      <Container />
+      <Container>
+        <p>AAAAAAAAAAAAAAAAA</p>
+      </Container>
     );
   }
 }

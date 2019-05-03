@@ -18,20 +18,21 @@ export default class Routes extends React.Component {
 
   render() {
 
+    const publicUrl = process.env.PUBLIC_URL;
+    
     return (
       <>
         <Switch>
-          <Route render={(props) => <Login {...props} path={`${process.env.PUBLIC_URL}/login`} />} />
-          <Route render={(props) => <Login {...props} path={`${process.env.PUBLIC_URL}/logout`} />} />
+          <Route path={`${publicUrl}/login`} component={Login} />
+          <Route path={`${publicUrl}/logout`} component={Login} />
           {isLoggedIn() ?
             <>
               <MainMenu />
               <PrivateRoutes />
-            </> : <Redirect to={{ pathname: `${process.env.PUBLIC_URL}/login` }} />
-
+            </> : <Redirect to={{ pathname: `${publicUrl}/login` }} />
           }
-        </Switch>
-      </>
-    );
+          </Switch>
+        </>
+      );
+    }
   }
-}

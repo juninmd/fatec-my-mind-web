@@ -6,7 +6,7 @@ import NewRouterStore from '../../mobx/router.store';
 
 @inject('mainMenu', 'router')
 @observer
-export default class Poema extends React.Component<{
+export default class Usuario extends React.Component<{
   menu: MenuStore;
   router: NewRouterStore;
 }> {
@@ -21,7 +21,7 @@ export default class Poema extends React.Component<{
   render() {
     return (
       <Container>
-        <p>BBBBBBBBBBBBB</p>
+        <p>CCCCCCCCCCCC</p>
       </Container>
     );
   }

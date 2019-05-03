@@ -16,7 +16,7 @@ import NewRouterStore from '../../mobx/router.store';
 import './style.css';
 
 interface Props {
-  menu: MenuStore;
+  mainMenu: MenuStore;
   login: LoginStore;
   router: NewRouterStore;
   match: any;
@@ -27,15 +27,15 @@ interface Props {
 @inject('mainMenu', 'router', 'login')
 @observer
 export default class Login extends React.Component<Props> {
-  redirect() {
+  redirect = () => {
     const path = 'home';
-    const { setMenuActive } = this.props.menu;
+    const { setMenuActive } = this.props.mainMenu;
     setMenuActive(path);
     const { setHistory } = this.props.router;
     setHistory(path);
   };
 
-  componentWillMount() {
+  componentWillMount = () => {
     const { path } = this.props.match;
     if (path === '/logout') {
       logOff();
@@ -49,7 +49,7 @@ export default class Login extends React.Component<Props> {
     }
   }
 
-  async handleSubmit(event: any) {
+  handleSubmit = async (event: any) => {
     event.preventDefault();
     const { handleSubmit } = this.props.login;
     await handleSubmit();
@@ -65,7 +65,7 @@ export default class Login extends React.Component<Props> {
         <Divider hidden={true} />
 
 
-        <Form size='large'>
+        <Form size='large' onSubmit={this.handleSubmit}>
           <Header as='h2' color='yellow' textAlign='center' content='Login' />
 
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
@@ -73,7 +73,7 @@ export default class Login extends React.Component<Props> {
               <Segment color='green'>
 
                 <Form.Field>
-                  <label>Usuário:</label>
+                  <label>E-Mail:</label>
                   <Input
                     id='email'
                     minLength={3}

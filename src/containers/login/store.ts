@@ -1,7 +1,7 @@
 import swal from 'sweetalert2';
 import { action, observable } from 'mobx';
 import { assign } from '../../util/object.util';
-import { getLogin } from '../../api/usuarios.api';
+import { postLogin } from '../../api/usuarios.api';
 import { setAuth } from '../../util/auth.util';
 
 export default class LoginStore {
@@ -22,8 +22,8 @@ export default class LoginStore {
 
       this.loading = true;
 
-      const { data: [user] } = await getLogin({ email, senha });
-      setAuth(JSON.stringify(user.userData));
+      const { data } = await postLogin({ email, senha });
+      setAuth(JSON.stringify(data));
       this.loading = false;
     } catch (error) {
       this.loading = false;

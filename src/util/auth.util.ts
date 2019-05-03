@@ -1,17 +1,19 @@
 import swal from 'sweetalert2';
-import { decode } from 'jsonwebtoken';
+
 export const isLoggedIn = () => {
   const user = sessionStorage.getItem('auth_token');
+  console.log(user);
   return user !== null;
 };
 
 interface UserData {
-  name: string;
-  login: string;
+  codigo: number;
+  nome: string;
+  email: string;
 }
 
 export const getFirstName = (): string => {
-  const user = getUser().name.split(' ')[0];
+  const user = getUser().nome.split(' ')[0];
   return user.charAt(0).toUpperCase() + user.slice(1).toLowerCase();
 };
 
@@ -29,7 +31,7 @@ export const getUser = (): UserData => {
   }
 
   try {
-    return decode(user) as UserData;
+    return JSON.parse(user) as UserData;
   } catch (error) {
     logOff();
     swal({

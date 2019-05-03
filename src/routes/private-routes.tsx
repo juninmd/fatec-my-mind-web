@@ -13,8 +13,8 @@ export default class PrivateRoutes extends React.Component {
         <Route exact={true} path={`${publicUrl}/`} component={Home} />
         <Route path={`${publicUrl}/home`} component={Home} />
         {routes.map((route, i) => (
-          <Route key={i} {...route} />
-        ))}
+          <Route key={i} {...route} />)
+        )}
         <Route render={props => <NotFound {...props} />} />
       </Switch>
     );
